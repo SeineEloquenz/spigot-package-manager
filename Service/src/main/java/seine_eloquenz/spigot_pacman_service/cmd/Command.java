@@ -1,12 +1,20 @@
 package seine_eloquenz.spigot_pacman_service.cmd;
 
+import seine_eloquenz.spigot_pacman_service.SpigotPacman;
+
 import java.io.File;
 
 public abstract class Command {
 
+    private final SpigotPacman pacman;
+
+    public Command(SpigotPacman pacman) {
+        this.pacman = pacman;
+    }
+
     public abstract String getName();
 
-    void execute(String... args) {
+    public void execute(String... args) {
         executeLogic(args);
     }
 
