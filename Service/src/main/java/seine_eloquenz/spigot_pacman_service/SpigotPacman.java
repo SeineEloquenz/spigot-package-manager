@@ -38,7 +38,7 @@ public class SpigotPacman {
             try {
                 final Constructor<?> constructor =
                         Stream.of(cmd.getConstructors())
-                                .filter(c -> c.getParameterCount() == 0)
+                                .filter(c -> c.getParameterCount() == 1 && c.getParameterTypes()[0].equals(SpigotPacman.class))
                                 .findFirst().orElse(null);
                 if (constructor == null) {
                     throw new InstantiationException("Could not find Constructor of " + cmd.getName());
