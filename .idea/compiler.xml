@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Annotation profile for Plugin" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <option name="project" value="org.example/Plugin" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/info/picocli/picocli-codegen/4.1.4/picocli-codegen-4.1.4.jar" />
+          <entry name="$MAVEN_REPOSITORY$/info/picocli/picocli/4.1.4/picocli-4.1.4.jar" />
+        </processorPath>
+        <module name="Plugin" />
+      </profile>
+      <profile name="Annotation profile for spigot-package-manager" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <option name="project" value="org.example/Service" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/info/picocli/picocli-codegen/4.1.4/picocli-codegen-4.1.4.jar" />
+          <entry name="$MAVEN_REPOSITORY$/info/picocli/picocli/4.1.4/picocli-4.1.4.jar" />
+        </processorPath>
+        <module name="Service" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Plugin" options="-Aproject=org.example/Plugin" />
+      <module name="Service" options="-Aproject=org.example/Service" />
+      <module name="spigot-package-manager" options="" />
+    </option>
+  </component>
+</project>
