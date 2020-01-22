@@ -1,7 +1,7 @@
-package seine_eloquenz.spigot_pacman_service;
+package de.seine_eloquenz.spigot_pacman_service;
 
 import org.reflections.Reflections;
-import seine_eloquenz.spigot_pacman_service.cmd.Command;
+import de.seine_eloquenz.spigot_pacman_service.cmd.Command;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

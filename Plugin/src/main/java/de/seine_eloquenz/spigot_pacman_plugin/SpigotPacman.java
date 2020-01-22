@@ -1,4 +1,4 @@
-package seine_eloquenz.spigot_pacman_plugin;
+package de.seine_eloquenz.spigot_pacman_plugin;
 
 import de.seine_eloquenz.lbcfs.LbcfsPlugin;
 

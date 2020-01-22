@@ -1,6 +1,6 @@
-package seine_eloquenz.spigot_pacman_service.cmd;
+package de.seine_eloquenz.spigot_pacman_service.cmd;
 
-import seine_eloquenz.spigot_pacman_service.SpigotPacman;
+import de.seine_eloquenz.spigot_pacman_service.SpigotPacman;
 
 import java.io.File;
 
