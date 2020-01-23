@@ -1,8 +1,12 @@
 package de.seine_eloquenz.spigot_pacman_service;
 
+import org.jgroups.JChannel;
+import org.jgroups.Message;
 import org.reflections.Reflections;
 import de.seine_eloquenz.spigot_pacman_service.cmd.Command;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -12,19 +16,26 @@ import java.util.stream.Stream;
 
 public class SpigotPacman {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         SpigotPacman pacman = new SpigotPacman();
+
         if (args.length >= 1) {
             pacman.executeCommand(args[0], cutFirstParam(args));
         } else {
             System.err.println("You need to specify at least one command to run!");
         }
+        pacman.disconnect();
     }
 
-    private Map<String, Command> commands = new HashMap<>();
+    private Map<String, Command> commands;
+    private final JChannel channel;
 
-    public SpigotPacman() {
+    public SpigotPacman() throws Exception {
+        commands = new HashMap<>();
+        channel = new JChannel();
         this.findAndRegisterCommands();
+        channel.connect("spigotPacman");
+        channel.name("service");
     }
 
     private void executeCommand(String name, String... args) {
@@ -57,5 +68,35 @@ public class SpigotPacman {
             System.arraycopy(params, 1, subParams, 0, subParams.length);
         }
         return subParams;
+    }
+
+    /**
+     * Checks whether the server in this directory is running
+     * @return true iff server running
+     */
+    public boolean serverRunning() {
+        return (new File("./spigot.jar")).canWrite();
+    }
+
+    /**
+     * Stops the server
+     */
+    public void stopServer() throws Exception {
+        if (serverRunning()) {
+            channel.send(new Message(null, "shutdown"));
+        }
+    }
+
+    /**
+     * Starts the server
+     */
+    public void startServer() throws IOException {
+        if (!serverRunning()) {
+            Runtime.getRuntime().exec("java -jar spigot.jar");
+        }
+    }
+
+    private void disconnect() {
+        this.channel.disconnect();
     }
 }
