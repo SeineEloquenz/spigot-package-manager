@@ -35,4 +35,12 @@
         <module>Plugin</module>
         <module>Service</module>
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jgroups</groupId>
+            <artifactId>jgroups</artifactId>
+            <version>4.0.0.Final</version>
+        </dependency>
+    </dependencies>
 </project>
