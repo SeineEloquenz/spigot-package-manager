@@ -43,7 +43,7 @@ public class SpigotPacman {
                 if (constructor == null) {
                     throw new InstantiationException("Could not find Constructor of " + cmd.getName());
                 }
-                final Command command = (Command) constructor.newInstance();
+                final Command command = (Command) constructor.newInstance(this);
                 commands.put(command.getName(), command);
             } catch (final InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace(); //Should never happen in production, as all commands need to supply this constructor
