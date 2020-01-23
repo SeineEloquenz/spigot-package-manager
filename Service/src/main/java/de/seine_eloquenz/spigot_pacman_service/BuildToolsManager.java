@@ -7,11 +7,16 @@ import java.io.InputStreamReader;
 
 public class BuildToolsManager {
 
+	public static final String BUILD_TOOLS_DIR = SpigotPacman.HOME_DIR + File.separator + "BuildTools";
+	public static final String BUILD_TARGET_DIR = SpigotPacman.HOME_DIR + File.separator + "build-target";
+
 	private void downloadBuildTools() throws IOException {
 		String url = "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar";
-		File btDir = new File("BuildTools");
-		btDir.mkdir();
-		File dest = new File(btDir, "BuildTools.jar");
+		//noinspection ResultOfMethodCallIgnored
+		(new File(BUILD_TOOLS_DIR)).mkdirs();
+		//noinspection ResultOfMethodCallIgnored
+		(new File(BUILD_TARGET_DIR)).mkdirs();
+		File dest = new File(BUILD_TOOLS_DIR, "BuildTools.jar");
 
 		System.out.print("Downloading latest BuildTools...\n[Connecting...       ] 0%");
 		Downloader.download(url, dest);
@@ -36,7 +41,7 @@ public class BuildToolsManager {
 	 */
 	public void clean(File dir) {
 		if(dir == null)
-			dir = new File("BuildTools");
+			dir = new File(BUILD_TOOLS_DIR);
 		File[] oldBuilds = dir.listFiles((directory, name) -> name.endsWith(".jar") && (name.startsWith("craftbukkit") || name.startsWith("spigot")));
 		if (oldBuilds != null) {
 			for(File build: oldBuilds){
@@ -68,7 +73,7 @@ public class BuildToolsManager {
 		}
 		ProcessBuilder procBuilder = new ProcessBuilder(javaLoc.getAbsolutePath(), "-jar", "BuildTools.jar", "--rev",
 				version);
-		procBuilder.directory(new File("BuildTools"));
+		procBuilder.directory(new File(BUILD_TOOLS_DIR));
 		procBuilder.redirectErrorStream(true);
 		Process proc = procBuilder.start();
 		BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
@@ -98,7 +103,7 @@ public class BuildToolsManager {
 	}
 	
 	private File findJar(String serverType) {
-		File btDir = new File("BuildTools");
+		File btDir = new File(BUILD_TOOLS_DIR);
 		File[] jars = btDir.listFiles((dir, name) -> name.endsWith(".jar"));
 		if (jars != null) {
 			for(File jar: jars){
@@ -120,11 +125,12 @@ public class BuildToolsManager {
 	public void buildServer(String serverType, String version) throws IOException, InterruptedException {
 		checkConditions();
 		downloadBuildTools();
-		clean(new File("BuildTools"));
+		clean(new File(BUILD_TOOLS_DIR));
+		clean(new File(BUILD_TARGET_DIR));
 		runBuildTools(version);
 		
 		File jar = findJar(serverType);
-		File dest = new File(jar.getName());
+		File dest = new File(BUILD_TARGET_DIR + File.separator + jar.getName());
 		//noinspection ResultOfMethodCallIgnored
 		jar.renameTo(dest);
 		System.out.println(dest);

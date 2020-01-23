@@ -16,6 +16,8 @@ import java.util.stream.Stream;
 
 public class SpigotPacman {
 
+    public static final String HOME_DIR = "." + File.separator + "spm";
+
     public static void main(String[] args) throws Exception {
         SpigotPacman pacman = new SpigotPacman();
 
