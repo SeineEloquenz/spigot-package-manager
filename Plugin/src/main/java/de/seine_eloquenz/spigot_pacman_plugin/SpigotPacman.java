@@ -17,4 +17,9 @@ public class SpigotPacman extends LbcfsPlugin {
     public String getChatPrefix() {
         return "SpigotPacman";
     }
+
+    @Override
+    public void tearDown() {
+        this.channel.disconnect();
+    }
 }
