@@ -26,10 +26,18 @@ public class ServerImpl implements Server {
     }
 
     @Override
-    public void stop() {
+    public void sendCommand(final String command) {
         if (isRunning()) {
             PrintWriter writer = new PrintWriter(new BufferedOutputStream(server.getOutputStream()));
-            writer.println("stop now");
+            writer.println(command);
+            writer.close();
+        }
+    }
+
+    @Override
+    public void stop() {
+        if (isRunning()) {
+            this.sendCommand("stop now");
         }
         this.awaitShutdown();
         server = null;

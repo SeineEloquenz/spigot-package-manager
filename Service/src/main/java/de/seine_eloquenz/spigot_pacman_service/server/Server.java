@@ -11,6 +11,12 @@ public interface Server {
     boolean isRunning();
 
     /**
+     * Sends a command to the server
+     * @param command command to send
+     */
+    void sendCommand(String command);
+
+    /**
      * Stops the server
      */
     void stop();
