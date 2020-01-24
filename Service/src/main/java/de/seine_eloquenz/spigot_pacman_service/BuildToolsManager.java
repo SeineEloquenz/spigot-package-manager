@@ -122,7 +122,7 @@ public class BuildToolsManager {
 	 * @throws IOException io errors
 	 * @throws InterruptedException interruption
 	 */
-	public void buildServer(String serverType, String version) throws IOException, InterruptedException {
+	public File buildServer(String serverType, String version) throws IOException, InterruptedException {
 		checkConditions();
 		downloadBuildTools();
 		clean(new File(BUILD_TOOLS_DIR));
@@ -133,6 +133,6 @@ public class BuildToolsManager {
 		File dest = new File(BUILD_TARGET_DIR + File.separator + jar.getName());
 		//noinspection ResultOfMethodCallIgnored
 		jar.renameTo(dest);
-		System.out.println(dest);
+		return dest;
 	}
 }
