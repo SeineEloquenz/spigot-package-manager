@@ -3,7 +3,7 @@
     <module name="Service" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="de.seine_eloquenz.spigot_pacman_service.*" />
+        <option name="PATTERN" value="de.seine_eloquenz.spigot_pacman_service.server.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
