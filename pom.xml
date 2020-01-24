@@ -12,6 +12,7 @@
     <modules>
         <module>Plugin</module>
         <module>Service</module>
+        <module>Libs</module>
     </modules>
 
     <dependencies>
