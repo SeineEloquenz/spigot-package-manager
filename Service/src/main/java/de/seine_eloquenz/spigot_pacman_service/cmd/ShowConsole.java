@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 
 public class ShowConsole extends Command {
 
+    private static final Object lock = new Object();
+
     public ShowConsole(final SpigotPacman pacman) {
         super(pacman);
     }
@@ -29,7 +31,9 @@ public class ShowConsole extends Command {
                 switch (line) {
                     case ":q": {
                         printer.exit();
-                        System.out.println("Left console.");
+                        synchronized (lock) {
+                            System.out.println("Left console.");
+                        }
                         return;
                     }
                     case ":h": {
@@ -61,9 +65,11 @@ public class ShowConsole extends Command {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(pacman.getServer().consoleStream()))) {
                 String line;
                 while (!stopped && (line = reader.readLine()) != null) {
-                    System.out.print("\r[C]> ");
-                    System.out.println(line);
-                    System.out.print(":> ");
+                    synchronized (lock) {
+                        System.out.print("\r[C]> ");
+                        System.out.println(line);
+                        System.out.print(":> ");
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
