@@ -1,12 +1,21 @@
 package de.seine_eloquenz.spigot_pacman_service;
 
+import de.seine_eloquenz.spigot_pacman_libs.Constants;
+import de.seine_eloquenz.spigot_pacman_service.server.Server;
+import de.seine_eloquenz.spigot_pacman_service.server.ServerImpl;
+import org.apache.commons.configuration2.FileBasedConfiguration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
+import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.io.input.CloseShieldInputStream;
 import org.jgroups.JChannel;
-import org.jgroups.Message;
 import org.reflections.Reflections;
 import de.seine_eloquenz.spigot_pacman_service.cmd.Command;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -17,31 +26,82 @@ import java.util.stream.Stream;
 public class SpigotPacman {
 
     public static final String HOME_DIR = "." + File.separator + "spm";
+    public static final String CONFIG_FILE = "." + File.separator + "spm-config.properties";
 
     public static void main(String[] args) throws Exception {
         SpigotPacman pacman = new SpigotPacman();
-
-        if (args.length >= 1) {
-            pacman.executeCommand(args[0], cutFirstParam(args));
-        } else {
-            System.err.println("You need to specify at least one command to run!");
+        pacman.getServer().start();
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(new CloseShieldInputStream(System.in)))) {
+            System.out.print(":> ");
+            String line;
+            while ((line = in.readLine()) != null) {
+                String[] input = line.split(" ");
+                pacman.executeCommand(input[0], cutFirstParam(input));
+                System.out.print(":> ");
+            }
         }
-        pacman.disconnect();
     }
 
     private Map<String, Command> commands;
     private final JChannel channel;
+    private final BuildToolsManager manager;
+    private FileBasedConfiguration configuration;
+    private final Server server;
 
     public SpigotPacman() throws Exception {
         commands = new HashMap<>();
         channel = new JChannel();
+        this.manager = new BuildToolsManager();
+        File configFile = new File(CONFIG_FILE);
+        Parameters params = new Parameters();
+        FileBasedConfigurationBuilder<FileBasedConfiguration> builder
+                = new FileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration.class)
+                .configure(params.fileBased().setFile(configFile));
+        try {
+            this.configuration = builder.getConfiguration();
+        } catch (ConfigurationException e) {
+            System.err.println("Configuration not found!");
+            System.exit(1);
+        }
+        this.server = new ServerImpl();
         this.findAndRegisterCommands();
-        channel.connect("spigotPacman");
         channel.name("service");
+        channel.connect(Constants.CHANNEL_NAME);
+    }
+
+    public Server getServer() {
+        return server;
+    }
+
+    public String serverType() {
+        return configuration.getString("server.type");
+    }
+
+    public File serverJar() {
+        return new File("." + File.separator + configuration.getString("server.jar"));
+    }
+
+    public File buildServer(String version) {
+        String type = serverType();
+        if (ServerType.paper.name().equals(type)) {
+            // TODO paper download
+            return null;
+        } else {
+            try {
+                return manager.buildServer(type, version);
+            } catch (Exception e) {
+                System.err.println("Could not build server for " + type + "-" + version);
+                return null;
+            }
+        }
     }
 
     private void executeCommand(String name, String... args) {
-        this.commands.get(name).execute(args);
+        if (this.commands.containsKey(name)) {
+            this.commands.get(name).execute(args);
+        } else {
+            System.out.println("Unknown command. Use help for help.");
+        }
     }
 
     private void findAndRegisterCommands() {
@@ -70,32 +130,6 @@ public class SpigotPacman {
             System.arraycopy(params, 1, subParams, 0, subParams.length);
         }
         return subParams;
-    }
-
-    /**
-     * Checks whether the server in this directory is running
-     * @return true iff server running
-     */
-    public boolean serverRunning() {
-        return (new File("./spigot.jar")).canWrite();
-    }
-
-    /**
-     * Stops the server
-     */
-    public void stopServer() throws Exception {
-        if (serverRunning()) {
-            channel.send(new Message(null, "shutdown"));
-        }
-    }
-
-    /**
-     * Starts the server
-     */
-    public void startServer() throws IOException {
-        if (!serverRunning()) {
-            Runtime.getRuntime().exec("java -jar spigot.jar");
-        }
     }
 
     private void disconnect() {
