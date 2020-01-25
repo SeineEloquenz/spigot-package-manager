@@ -38,7 +38,7 @@ public class ApacheCommonsConfiguration implements Configuration {
     @Override
     public String[] serverArguments() {
         String args = configuration.getString("server.arguments");
-        return "none".equals(args) ? new String[0] : args.split(" ");
+        return args == null || "none".equals(args) ? new String[0] : args.split(" ");
     }
     @Override
     public File serverJar() {
