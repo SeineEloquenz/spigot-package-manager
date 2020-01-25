@@ -29,7 +29,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathLayoutType>repository</classpathLayoutType>
-                            <mainClass>de.seine_eloquenz.spigot_pacman_service.SpigotPacman</mainClass>
+                            <mainClass>de.seine_eloquenz.spigot_pacman_service.Main</mainClass>
                             <useUniqueVersions>false</useUniqueVersions>
                         </manifest>
                     </archive>

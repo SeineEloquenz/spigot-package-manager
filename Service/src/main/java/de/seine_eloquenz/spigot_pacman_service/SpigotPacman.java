@@ -24,20 +24,6 @@ public class SpigotPacman {
 
     public static final String HOME_DIR = "." + File.separator + "spm";
 
-    public static void main(String[] args) throws Exception {
-        SpigotPacman pacman = new SpigotPacman();
-        pacman.getServer().start();
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(new CloseShieldInputStream(System.in)))) {
-            System.out.print(":> ");
-            String line;
-            while ((line = in.readLine()) != null) {
-                String[] input = line.split(" ");
-                pacman.executeCommand(input[0], cutFirstParam(input));
-                System.out.print(":> ");
-            }
-        }
-    }
-
     private Map<String, Command> commands;
     private final JChannel channel;
     private final BuildToolsManager manager;
@@ -78,7 +64,7 @@ public class SpigotPacman {
         }
     }
 
-    private void executeCommand(String name, String... args) {
+    public void executeCommand(String name, String... args) {
         if (this.commands.containsKey(name)) {
             this.commands.get(name).execute(args);
         } else {
@@ -104,17 +90,6 @@ public class SpigotPacman {
                 e.printStackTrace(); //Should never happen in production, as all commands need to supply this constructor
             }
         }
-    }
-
-    private static String[] cutFirstParam(final String[] params) {
-        final String[] subParams;
-        if (params.length - 1 <= 0) {
-            subParams = new String[0];
-        } else {
-            subParams = new String[params.length - 1];
-            System.arraycopy(params, 1, subParams, 0, subParams.length);
-        }
-        return subParams;
     }
 
     private void disconnect() {
