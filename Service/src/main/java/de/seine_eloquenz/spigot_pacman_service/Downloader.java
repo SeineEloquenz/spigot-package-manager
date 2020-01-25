@@ -23,7 +23,8 @@ public class Downloader {
     }
 
     private static void downloadLogic(final File dest, HttpURLConnection conn) throws IOException {
-        int totalSize = conn.getHeaderFieldInt("Content-Length", -1), currentSize = 0;
+        int totalSize = conn.getHeaderFieldInt("Content-Length", -1);
+        int currentSize = 0;
         InputStream in = conn.getInputStream();
         OutputStream out = new FileOutputStream(dest);
         byte[] buffer = new byte[1024 * 1024 * 8];

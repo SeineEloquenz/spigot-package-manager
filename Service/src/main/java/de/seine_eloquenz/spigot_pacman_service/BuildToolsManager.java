@@ -40,9 +40,8 @@ public class BuildToolsManager {
 	 * @param dir directory to clean
 	 */
 	public void clean(File dir) {
-		if(dir == null)
-			dir = new File(BUILD_TOOLS_DIR);
-		File[] oldBuilds = dir.listFiles((directory, name) -> name.endsWith(".jar") && (name.startsWith("craftbukkit") || name.startsWith("spigot")));
+		File workingDir = (dir == null) ? new File(BUILD_TOOLS_DIR) : dir;
+		File[] oldBuilds = workingDir.listFiles((directory, name) -> name.endsWith(".jar") && (name.startsWith("craftbukkit") || name.startsWith("spigot")));
 		if (oldBuilds != null) {
 			for(File build: oldBuilds){
 				System.out.println("Deleting: " + build);
