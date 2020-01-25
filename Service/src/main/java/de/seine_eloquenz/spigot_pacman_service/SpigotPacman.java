@@ -1,13 +1,10 @@
 package de.seine_eloquenz.spigot_pacman_service;
 
+import de.seine_eloquenz.config.ApacheCommonsConfiguration;
+import de.seine_eloquenz.config.Configuration;
 import de.seine_eloquenz.spigot_pacman_libs.Constants;
 import de.seine_eloquenz.spigot_pacman_service.server.Server;
 import de.seine_eloquenz.spigot_pacman_service.server.ServerImpl;
-import org.apache.commons.configuration2.FileBasedConfiguration;
-import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
-import org.apache.commons.configuration2.builder.fluent.Parameters;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.io.input.CloseShieldInputStream;
 import org.jgroups.JChannel;
 import org.reflections.Reflections;
@@ -26,7 +23,6 @@ import java.util.stream.Stream;
 public class SpigotPacman {
 
     public static final String HOME_DIR = "." + File.separator + "spm";
-    public static final String CONFIG_FILE = "." + File.separator + "spm-config.properties";
 
     public static void main(String[] args) throws Exception {
         SpigotPacman pacman = new SpigotPacman();
@@ -45,25 +41,15 @@ public class SpigotPacman {
     private Map<String, Command> commands;
     private final JChannel channel;
     private final BuildToolsManager manager;
-    private FileBasedConfiguration configuration;
+    private Configuration configuration;
     private final Server server;
 
     public SpigotPacman() throws Exception {
         commands = new HashMap<>();
         channel = new JChannel();
         this.manager = new BuildToolsManager();
-        File configFile = new File(CONFIG_FILE);
-        Parameters params = new Parameters();
-        FileBasedConfigurationBuilder<FileBasedConfiguration> builder
-                = new FileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration.class)
-                .configure(params.fileBased().setFile(configFile));
-        try {
-            this.configuration = builder.getConfiguration();
-        } catch (ConfigurationException e) {
-            System.err.println("Configuration not found!");
-            System.exit(1);
-        }
-        this.server = new ServerImpl(serverArguments());
+        this.configuration = new ApacheCommonsConfiguration();
+        this.server = new ServerImpl(configuration.serverArguments());
         this.findAndRegisterCommands();
         channel.name("service");
         channel.connect(Constants.CHANNEL_NAME);
@@ -73,9 +59,13 @@ public class SpigotPacman {
         return server;
     }
 
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
     public File buildServer(String version) {
-        String type = serverType();
-        if (ServerType.paper.name().equals(type)) {
+        ServerType type = configuration.serverType();
+        if (ServerType.paper.equals(type)) {
             // TODO paper download
             return null;
         } else {

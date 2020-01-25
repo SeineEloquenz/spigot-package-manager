@@ -32,7 +32,7 @@ public class ServerUpgrade extends Command {
                         System.out.println("Sending stop command to server...");
                         pacman.getServer().awaitShutdown();
                         System.out.println("Copying server jar");
-                        Files.copy(server.toPath(), pacman.serverJar().toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        Files.copy(server.toPath(), pacman.getConfiguration().serverJar().toPath(), StandardCopyOption.REPLACE_EXISTING);
                         System.out.println("Restarting server...");
                         pacman.getServer().start();
                     } catch (Exception e) {

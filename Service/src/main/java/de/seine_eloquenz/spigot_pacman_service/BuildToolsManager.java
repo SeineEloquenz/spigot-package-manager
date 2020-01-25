@@ -102,12 +102,12 @@ public class BuildToolsManager {
 		System.out.println("BuildTools exited with: " + exitVal);
 	}
 	
-	private File findJar(String serverType) {
+	private File findJar(ServerType serverType) {
 		File btDir = new File(BUILD_TOOLS_DIR);
 		File[] jars = btDir.listFiles((dir, name) -> name.endsWith(".jar"));
 		if (jars != null) {
 			for(File jar: jars){
-				if(jar.getName().startsWith(serverType)){
+				if (jar.getName().startsWith(serverType.name())){
 					return jar;
 				}
 			}
@@ -122,7 +122,7 @@ public class BuildToolsManager {
 	 * @throws IOException io errors
 	 * @throws InterruptedException interruption
 	 */
-	public File buildServer(String serverType, String version) throws IOException, InterruptedException {
+	public File buildServer(ServerType serverType, String version) throws IOException, InterruptedException {
 		checkConditions();
 		downloadBuildTools();
 		clean(new File(BUILD_TOOLS_DIR));

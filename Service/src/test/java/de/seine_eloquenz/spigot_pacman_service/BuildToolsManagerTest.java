@@ -11,6 +11,6 @@ public class BuildToolsManagerTest {
     @Test
     public void runBuildTools() throws IOException, InterruptedException {
         BuildToolsManager manager = new BuildToolsManager();
-        manager.buildServer("spigot", "1.14.4");
+        manager.buildServer(ServerType.spigot, "1.14.4");
     }
 }
