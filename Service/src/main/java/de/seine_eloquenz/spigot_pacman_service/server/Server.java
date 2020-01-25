@@ -1,6 +1,7 @@
 package de.seine_eloquenz.spigot_pacman_service.server;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 public interface Server {
 
@@ -31,4 +32,10 @@ public interface Server {
      * Block until server shuts down
      */
     void awaitShutdown();
+
+    /**
+     * Returns an {@link InputStream} with console output
+     * @return outputstream of console output
+     */
+    InputStream consoleStream();
 }
