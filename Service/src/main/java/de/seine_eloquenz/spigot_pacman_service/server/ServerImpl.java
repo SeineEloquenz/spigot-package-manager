@@ -49,12 +49,14 @@ public class ServerImpl implements Server {
         }
         this.awaitShutdown();
         server = null;
+        System.out.println("Server stopped.");
     }
 
     @Override
     public void start() throws IOException {
         if (!isRunning()) {
             server = processBuilder.start();
+            System.out.println("Server started.");
         }
     }
 
