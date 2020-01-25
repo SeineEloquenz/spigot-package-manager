@@ -66,9 +66,11 @@ public class ShowConsole extends Command {
                 String line;
                 while (!stopped && (line = reader.readLine()) != null) {
                     synchronized (lock) {
-                        System.out.print("\r[C]> ");
-                        System.out.println(line);
-                        System.out.print(":> ");
+                        if (!stopped) {
+                            System.out.print("\r[C]> ");
+                            System.out.println(line);
+                            System.out.print(":> ");
+                        }
                     }
                 }
             } catch (IOException e) {
