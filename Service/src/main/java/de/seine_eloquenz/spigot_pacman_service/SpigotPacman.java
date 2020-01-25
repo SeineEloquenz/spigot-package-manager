@@ -63,7 +63,7 @@ public class SpigotPacman {
             System.err.println("Configuration not found!");
             System.exit(1);
         }
-        this.server = new ServerImpl();
+        this.server = new ServerImpl(serverArguments());
         this.findAndRegisterCommands();
         channel.name("service");
         channel.connect(Constants.CHANNEL_NAME);
@@ -71,6 +71,15 @@ public class SpigotPacman {
 
     public Server getServer() {
         return server;
+    }
+
+    /**
+     * Returns the server arguments from configuration
+     * @return server arguments
+     */
+    public String[] serverArguments() {
+        String args = configuration.getString("server.arguments");
+        return args.equals("none") ? new String[0] : args.split(" ");
     }
 
     public String serverType() {
