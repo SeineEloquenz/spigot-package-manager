@@ -21,7 +21,7 @@ public class SpigotPacman extends LbcfsPlugin {
     }
 
     public String getChatPrefix() {
-        return "SpigotPacman";
+        return "SPM";
     }
 
     @Override
