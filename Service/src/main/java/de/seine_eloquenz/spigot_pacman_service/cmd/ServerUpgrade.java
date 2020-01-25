@@ -18,7 +18,7 @@ public class ServerUpgrade extends Command {
     }
 
     @Override
-    void executeLogic(final String... args) {
+    protected void executeLogic(final String... args) {
         if (args.length > 0) {
             if (args[0].equals("-h")) {
                 System.out.println("Use server-upgrade -v <version> Where version is minecraft version or latest for" +

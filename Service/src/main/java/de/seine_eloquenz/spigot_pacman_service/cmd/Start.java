@@ -6,6 +6,8 @@ import java.io.IOException;
 
 public class Start extends Command {
 
+    private String[] args;
+
     public Start(final SpigotPacman pacman) {
         super(pacman);
     }
@@ -16,7 +18,8 @@ public class Start extends Command {
     }
 
     @Override
-    void executeLogic(final String... args) {
+    protected void executeLogic(final String... args) {
+        this.args = args;
         try {
             pacman().getServer().start();
         } catch (IOException e) {

@@ -20,5 +20,5 @@ public abstract class Command {
         return pacman;
     }
 
-    abstract void executeLogic(String... args);
+    protected abstract void executeLogic(String... args);
 }

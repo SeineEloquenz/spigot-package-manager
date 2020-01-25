@@ -14,7 +14,7 @@ public class Status extends Command {
     }
 
     @Override
-    void executeLogic(final String... args) {
+    protected void executeLogic(final String... args) {
         System.out.println(this.pacman().getServer().isRunning() ? "Server online" : "Server offline");
     }
 }

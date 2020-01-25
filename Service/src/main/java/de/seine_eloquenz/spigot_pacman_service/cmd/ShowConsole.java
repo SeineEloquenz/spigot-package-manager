@@ -21,7 +21,7 @@ public class ShowConsole extends Command {
     }
 
     @Override
-    void executeLogic(final String... args) {
+    protected void executeLogic(final String... args) {
 
         ConsolePrinter printer = new ConsolePrinter(pacman());
         printer.start();

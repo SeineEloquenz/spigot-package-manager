@@ -14,7 +14,7 @@ public class Stop extends Command {
     }
 
     @Override
-    void executeLogic(final String... args) {
+    protected void executeLogic(final String... args) {
         pacman().getServer().sendCommand("stop now");
     }
 }

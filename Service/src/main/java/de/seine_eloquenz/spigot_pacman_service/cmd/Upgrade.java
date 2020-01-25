@@ -14,7 +14,7 @@ public class Upgrade extends Command {
     }
 
     @Override
-    public void executeLogic(final String... args) {
+    protected void executeLogic(final String... args) {
         if (args.length > 0) {
             switch (args[0]) {
                 case "-a": {
