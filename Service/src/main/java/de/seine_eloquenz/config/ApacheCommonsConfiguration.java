@@ -26,7 +26,7 @@ public class ApacheCommonsConfiguration implements Configuration {
         } catch (ConfigurationException e) {
             System.err.println("Configuration not found!");
             System.exit(1);
-            throw new RuntimeException(); //to allow for final configuration, system exit doesnt count for compiler
+            throw new IllegalStateException(); //to allow for final configuration, system exit doesnt count for compiler
         }
     }
 
@@ -38,7 +38,7 @@ public class ApacheCommonsConfiguration implements Configuration {
     @Override
     public String[] serverArguments() {
         String args = configuration.getString("server.arguments");
-        return args == null || args.equals("none") ? new String[0] : args.split(" ");
+        return "none".equals(args) ? new String[0] : args.split(" ");
     }
     @Override
     public File serverJar() {
