@@ -13,16 +13,16 @@ public class Downloader {
     public static void download(final String url, final File dest, final String userAgent) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
         conn.setRequestProperty("User-Agent", userAgent);
-        downloadLogic(url, dest, conn);
+        downloadLogic(dest, conn);
     }
 
     public static void download(final String url, final File dest) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-        downloadLogic(url, dest, conn);
+        downloadLogic(dest, conn);
 
     }
 
-    private static void downloadLogic(final String url, final File dest, HttpURLConnection conn) throws IOException {
+    private static void downloadLogic(final File dest, HttpURLConnection conn) throws IOException {
         int totalSize = conn.getHeaderFieldInt("Content-Length", -1), currentSize = 0;
         InputStream in = conn.getInputStream();
         OutputStream out = new FileOutputStream(dest);
