@@ -1,7 +1,7 @@
 package de.seine_eloquenz.spigot_pacman_service;
 
-import de.seine_eloquenz.config.ApacheCommonsConfiguration;
-import de.seine_eloquenz.config.Configuration;
+import de.seine_eloquenz.spigot_pacman_service.config.ApacheCommonsConfiguration;
+import de.seine_eloquenz.spigot_pacman_service.config.Configuration;
 import de.seine_eloquenz.spigot_pacman_libs.Constants;
 import de.seine_eloquenz.spigot_pacman_service.server.Server;
 import de.seine_eloquenz.spigot_pacman_service.server.ServerImpl;

@@ -1,4 +1,4 @@
-package de.seine_eloquenz.config;
+package de.seine_eloquenz.spigot_pacman_service.config;
 
 import de.seine_eloquenz.spigot_pacman_service.ServerType;
 
