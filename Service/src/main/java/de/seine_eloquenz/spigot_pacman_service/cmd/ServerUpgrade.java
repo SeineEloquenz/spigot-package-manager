@@ -20,6 +20,10 @@ public class ServerUpgrade extends Command {
     @Override
     void executeLogic(final String... args) {
         if (args.length > 0) {
+            if (args[0].equals("-h")) {
+                System.out.println("Use server-upgrade -v <version> Where version is minecraft version or latest for" +
+                        "for latest stable build!");
+            }
             if (args.length == 2) {
                 if (args[0].equals("-v")) {
                     File server = pacman.buildServer(args[1]);
