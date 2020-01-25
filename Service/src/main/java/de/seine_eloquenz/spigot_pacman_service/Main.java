@@ -10,7 +10,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         SpigotPacman pacman = new SpigotPacman();
-        pacman.getServer().start();
         try (BufferedReader in = new BufferedReader(new InputStreamReader(new CloseShieldInputStream(System.in)))) {
             System.out.print(":> ");
             String line;
