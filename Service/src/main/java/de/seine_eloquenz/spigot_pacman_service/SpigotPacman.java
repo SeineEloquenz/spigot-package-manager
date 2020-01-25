@@ -73,23 +73,6 @@ public class SpigotPacman {
         return server;
     }
 
-    /**
-     * Returns the server arguments from configuration
-     * @return server arguments
-     */
-    public String[] serverArguments() {
-        String args = configuration.getString("server.arguments");
-        return args.equals("none") ? new String[0] : args.split(" ");
-    }
-
-    public String serverType() {
-        return configuration.getString("server.type");
-    }
-
-    public File serverJar() {
-        return new File("." + File.separator + configuration.getString("server.jar"));
-    }
-
     public File buildServer(String version) {
         String type = serverType();
         if (ServerType.paper.name().equals(type)) {
@@ -134,8 +117,11 @@ public class SpigotPacman {
     }
 
     private static String[] cutFirstParam(final String[] params) {
-        final String[] subParams = new String[params.length - 1];
-        if (subParams.length >= 0) {
+        final String[] subParams;
+        if (params.length - 1 <= 0) {
+            subParams = new String[0];
+        } else {
+            subParams = new String[params.length - 1];
             System.arraycopy(params, 1, subParams, 0, subParams.length);
         }
         return subParams;
