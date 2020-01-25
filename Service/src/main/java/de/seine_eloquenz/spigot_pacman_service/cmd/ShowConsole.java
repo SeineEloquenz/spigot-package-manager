@@ -23,7 +23,7 @@ public class ShowConsole extends Command {
     @Override
     void executeLogic(final String... args) {
 
-        ConsolePrinter printer = new ConsolePrinter(pacman);
+        ConsolePrinter printer = new ConsolePrinter(pacman());
         printer.start();
         try (BufferedReader input = new BufferedReader(new InputStreamReader(new CloseShieldInputStream(System.in)))) {
             String line;
@@ -41,7 +41,7 @@ public class ShowConsole extends Command {
                         break;
                     }
                     default: {
-                        pacman.getServer().sendCommand(line);
+                        pacman().getServer().sendCommand(line);
                         break;
                     }
                 }

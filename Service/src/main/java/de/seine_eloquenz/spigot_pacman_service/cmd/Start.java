@@ -18,7 +18,7 @@ public class Start extends Command {
     @Override
     void executeLogic(final String... args) {
         try {
-            pacman.getServer().start();
+            pacman().getServer().start();
         } catch (IOException e) {
             System.out.println("IOException. Could not start server.");
         }

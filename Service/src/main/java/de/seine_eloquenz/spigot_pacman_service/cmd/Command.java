@@ -4,7 +4,7 @@ import de.seine_eloquenz.spigot_pacman_service.SpigotPacman;
 
 public abstract class Command {
 
-    final SpigotPacman pacman;
+    private final SpigotPacman pacman;
 
     public Command(SpigotPacman pacman) {
         this.pacman = pacman;
@@ -12,8 +12,12 @@ public abstract class Command {
 
     public abstract String getName();
 
-    public void execute(String... args) {
+    public final void execute(String... args) {
         executeLogic(args);
+    }
+
+    public final SpigotPacman pacman() {
+        return pacman;
     }
 
     abstract void executeLogic(String... args);

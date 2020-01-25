@@ -15,7 +15,7 @@ public class Exit extends Command {
 
     @Override
     void executeLogic(final String... args) {
-        pacman.getServer().stop();
+        this.pacman().getServer().stop();
         System.exit(0);
     }
 }

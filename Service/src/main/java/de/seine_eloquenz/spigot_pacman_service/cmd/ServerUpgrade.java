@@ -26,15 +26,15 @@ public class ServerUpgrade extends Command {
             }
             if (args.length == 2) {
                 if (args[0].equals("-v")) {
-                    File server = pacman.buildServer(args[1]);
+                    File server = pacman().buildServer(args[1]);
                     try {
-                        pacman.getServer().stop();
+                        pacman().getServer().stop();
                         System.out.println("Sending stop command to server...");
-                        pacman.getServer().awaitShutdown();
+                        pacman().getServer().awaitShutdown();
                         System.out.println("Copying server jar");
-                        Files.copy(server.toPath(), pacman.getConfiguration().serverJar().toPath(), StandardCopyOption.REPLACE_EXISTING);
+                        Files.copy(server.toPath(), pacman().getConfiguration().serverJar().toPath(), StandardCopyOption.REPLACE_EXISTING);
                         System.out.println("Restarting server...");
-                        pacman.getServer().start();
+                        pacman().getServer().start();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
