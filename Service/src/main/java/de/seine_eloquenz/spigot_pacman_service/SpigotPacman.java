@@ -5,14 +5,11 @@ import de.seine_eloquenz.spigot_pacman_service.config.Configuration;
 import de.seine_eloquenz.spigot_pacman_libs.Constants;
 import de.seine_eloquenz.spigot_pacman_service.server.Server;
 import de.seine_eloquenz.spigot_pacman_service.server.ServerImpl;
-import org.apache.commons.io.input.CloseShieldInputStream;
 import org.jgroups.JChannel;
 import org.reflections.Reflections;
 import de.seine_eloquenz.spigot_pacman_service.cmd.Command;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
