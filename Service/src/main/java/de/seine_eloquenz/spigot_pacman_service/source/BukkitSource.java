@@ -1,6 +1,7 @@
 package de.seine_eloquenz.spigot_pacman_service.source;
 
 import de.seine_eloquenz.spigot_pacman_service.Downloader;
+import de.seine_eloquenz.spigot_pacman_service.util.URLUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -8,12 +9,11 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SourceBukkitDev implements Source {
+public class BukkitSource implements Source {
 	public static final String URL_PLUGINS_SERVER = "http://dev.bukkit.org";
 	public static final String URL_PLUGINS_BASE = "http://dev.bukkit.org/bukkit-plugins/";
 	public static final String URL_PLUGINS_SEARCH = "http://dev.bukkit.org/search/?scope=projects&search=";
@@ -38,9 +38,9 @@ public class SourceBukkitDev implements Source {
 		return downloadLink.get(0).absUrl("href");
 	}
 
-	public List<String> searchForPackage(String search) throws Exception {
+	public List<Resource> searchForPackage(String search) throws IOException {
 		List<String> results = new LinkedList<>();
-		String url = URL_PLUGINS_SEARCH + URLEncoder.encode(search, "UTF-8");
+		String url = URL_PLUGINS_SEARCH + URLUtils.encodeUTF8(search);
 		System.out.println("\n[Bukkit] " + "Read " + url);
 		Document doc = Jsoup.connect(url).get();
 		Elements resultElements = doc.select(".col-search-entry:not(.single-col)");
@@ -52,10 +52,10 @@ public class SourceBukkitDev implements Source {
 			results.add(name);
 		}
 		Collections.sort(results);
-		return results;
+		return new LinkedList<>();
 	}
 
-	public String getPackageDetails(String name) throws Exception {
+	public String getPackageDetails(String name) throws IOException {
 		String url = URL_PLUGINS_BASE + name;
 		System.out.println("\n[Bukkit] " + "Read " + url);
 		Document doc = Jsoup.connect(url).get();

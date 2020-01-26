@@ -5,6 +5,8 @@ import de.seine_eloquenz.spigot_pacman_service.config.Configuration;
 import de.seine_eloquenz.spigot_pacman_libs.Constants;
 import de.seine_eloquenz.spigot_pacman_service.server.Server;
 import de.seine_eloquenz.spigot_pacman_service.server.ServerImpl;
+import de.seine_eloquenz.spigot_pacman_service.source.Source;
+import de.seine_eloquenz.spigot_pacman_service.source.spigot.SpigotSource;
 import org.jgroups.JChannel;
 import org.reflections.Reflections;
 import de.seine_eloquenz.spigot_pacman_service.cmd.Command;
@@ -26,6 +28,7 @@ public class SpigotPacman {
     private final BuildToolsManager manager;
     private Configuration configuration;
     private final Server server;
+    private Source source;
 
     public SpigotPacman() throws Exception {
         commands = new HashMap<>();
@@ -33,6 +36,7 @@ public class SpigotPacman {
         this.manager = new BuildToolsManager();
         this.configuration = new ApacheCommonsConfiguration();
         this.server = new ServerImpl(configuration.serverArguments());
+        this.source = new SpigotSource();
         this.findAndRegisterCommands();
         channel.name("service");
         channel.connect(Constants.CHANNEL_NAME);
@@ -40,6 +44,10 @@ public class SpigotPacman {
 
     public Server getServer() {
         return server;
+    }
+
+    public Source getSource() {
+        return source;
     }
 
     public Configuration getConfiguration() {

@@ -1,5 +1,12 @@
 package de.seine_eloquenz.spigot_pacman_service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import netscape.javascript.JSObject;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,6 +16,35 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Downloader {
+
+    private static final Client client = ClientBuilder.newClient();
+
+    /**
+     * Downloads the String at the URL
+     * @param url url to download
+     * @return downloaded string
+     */
+    public static String getString(String url) {
+        return client.target(url).request().get(String.class);
+    }
+
+    /**
+     * Get result json as json object from web api endpoint
+     * @param url url to download
+     * @return json object
+     */
+    public static JsonObject getJSONObject(String url) {
+        return (new Gson()).fromJson(client.target(url).request().get(String.class), JsonObject.class);
+    }
+
+    /**
+     * Get result json as json object from web api endpoint
+     * @param url url to download
+     * @return json object
+     */
+    public static JsonArray getJSONArray(String url) {
+        return (new Gson()).fromJson(client.target(url).request().get(String.class), JsonArray.class);
+    }
 
     public static void download(final String url, final File dest, final String userAgent) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
