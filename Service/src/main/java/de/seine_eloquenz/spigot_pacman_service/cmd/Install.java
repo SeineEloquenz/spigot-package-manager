@@ -33,10 +33,7 @@ public class Install extends Command {
                 }
                 Resource plugin = result.get(0);
                 if (pacman().isInstalled(plugin)) {
-                    if (Terminal.askYesNo("Plugin is already installed, do you wish to update instead?")) {
-                        File pluginFile = pacman().getSource().downloadPlugin(plugin);
-                        System.out.println("Plugin will be updated on next restart.");
-                    }
+                    System.out.println("Plugin is already installed, please upgrade instead");
                 } else {
                     System.out.println("Found plugin " + plugin.getName());
                     if (Terminal.askYesNo("Do you wish to install it?")) {
