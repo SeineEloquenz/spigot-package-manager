@@ -47,6 +47,9 @@ public class ServerImpl implements Server {
     public void stop() {
         if (isRunning()) {
             this.sendCommand("stop now");
+        } else {
+            System.out.println("Server is already stopped.");
+            return;
         }
         this.awaitShutdown();
         server = null;
@@ -58,6 +61,8 @@ public class ServerImpl implements Server {
         if (!isRunning()) {
             server = processBuilder.start();
             System.out.println("Server started.");
+        } else {
+            System.out.println("Server is already running.");
         }
     }
 
