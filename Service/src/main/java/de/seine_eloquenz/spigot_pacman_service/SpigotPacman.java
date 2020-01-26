@@ -66,10 +66,6 @@ public class SpigotPacman {
         return configuration;
     }
 
-    public boolean isInstalled(Resource resource) {
-        return (new File(PLUGIN_FOLDER_PATH + "spm-" + resource.getID() + resource.getType())).exists();
-    }
-
     public Collection<Resource> getInstalledResources() {
         try {
             return Files.walk((new File(PLUGIN_FOLDER_PATH)).toPath()).filter(p -> p.getFileName().startsWith("spm-"))

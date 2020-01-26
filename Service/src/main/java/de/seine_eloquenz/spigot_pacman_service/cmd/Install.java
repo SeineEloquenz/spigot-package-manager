@@ -32,7 +32,7 @@ public class Install extends Command {
                     return;
                 }
                 Resource plugin = result.get(0);
-                if (pacman().isInstalled(plugin)) {
+                if (plugin.isInstalled()) {
                     System.out.println("Plugin is already installed, please upgrade instead");
                 } else {
                     System.out.println("Found plugin " + plugin.getName());

@@ -49,7 +49,7 @@ public class Upgrade extends Command {
                                 return;
                             }
                             Resource plugin = result.get(0);
-                            if (pacman().isInstalled(plugin)) {
+                            if (plugin.isInstalled()) {
                                 if (Terminal.askYesNo("Do you wish to upgrade?")) {
                                     File pluginFile = pacman().getSource().downloadPlugin(plugin);
                                     System.out.println("Plugin will be upgraded on next restart.");

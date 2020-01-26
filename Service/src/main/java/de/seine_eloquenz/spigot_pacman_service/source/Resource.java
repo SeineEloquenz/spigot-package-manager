@@ -5,9 +5,12 @@ import com.google.gson.JsonObject;
 import de.seine_eloquenz.spigot_pacman_service.Downloader;
 import de.seine_eloquenz.spigot_pacman_service.util.JsonUtils;
 
+import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static de.seine_eloquenz.spigot_pacman_service.SpigotPacman.PLUGIN_FOLDER_PATH;
 import static de.seine_eloquenz.spigot_pacman_service.source.spigot.SpigotSource.RESOURCE_API_ENDPOINT;
 
 public class Resource {
@@ -39,6 +42,10 @@ public class Resource {
         this.testedVersions = JsonUtils.stream(result.get("testedVersions").getAsJsonArray()).map(JsonElement::getAsString).collect(Collectors.toList());
         this.releaseDate = result.get("releaseDate").getAsInt();
         this.updateDate = result.get("updateDate").getAsInt();
+    }
+
+    public boolean isInstalled() {
+        return (new File(PLUGIN_FOLDER_PATH + "spm-" + this.getID() + this.getType())).exists();
     }
 
     @Override
