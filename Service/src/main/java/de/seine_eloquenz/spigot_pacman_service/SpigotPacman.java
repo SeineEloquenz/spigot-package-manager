@@ -5,6 +5,7 @@ import de.seine_eloquenz.spigot_pacman_service.config.Configuration;
 import de.seine_eloquenz.spigot_pacman_libs.Constants;
 import de.seine_eloquenz.spigot_pacman_service.server.Server;
 import de.seine_eloquenz.spigot_pacman_service.server.ServerImpl;
+import de.seine_eloquenz.spigot_pacman_service.source.Resource;
 import de.seine_eloquenz.spigot_pacman_service.source.Source;
 import de.seine_eloquenz.spigot_pacman_service.source.spigot.SpigotSource;
 import org.jgroups.JChannel;
@@ -22,6 +23,8 @@ import java.util.stream.Stream;
 public class SpigotPacman {
 
     public static final String HOME_DIR = "." + File.separator + "spm";
+    public static final String PLUGIN_FOLDER_PATH = "." + File.separator + "plugins" + File.separator;
+    public static final String UPDATE_FOLDER_PATH = PLUGIN_FOLDER_PATH + "update" + File.separator;
 
     private Map<String, Command> commands;
     private final JChannel channel;
@@ -37,6 +40,8 @@ public class SpigotPacman {
         this.configuration = new ApacheCommonsConfiguration();
         this.server = new ServerImpl(configuration.serverArguments());
         this.source = new SpigotSource();
+        //noinspection ResultOfMethodCallIgnored
+        (new File(UPDATE_FOLDER_PATH)).mkdirs();
         this.findAndRegisterCommands();
         channel.name("service");
         channel.connect(Constants.CHANNEL_NAME);
@@ -52,6 +57,10 @@ public class SpigotPacman {
 
     public Configuration getConfiguration() {
         return configuration;
+    }
+
+    public boolean isInstalled(Resource resource) {
+        return (new File(PLUGIN_FOLDER_PATH + "spm-" + resource.getID() + resource.getType())).exists();
     }
 
     public File buildServer(String version) {

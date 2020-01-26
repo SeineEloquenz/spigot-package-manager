@@ -1,6 +1,6 @@
 package de.seine_eloquenz.spigot_pacman_service.server;
 
-import de.seine_eloquenz.spigot_pacman_service.util.WaitUtils;
+import de.seine_eloquenz.spigot_pacman_service.util.Terminal;
 import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.io.output.CloseShieldOutputStream;
 
@@ -63,7 +63,7 @@ public class ServerImpl implements Server {
 
     @Override
     public void awaitShutdown() {
-        WaitUtils.wait("Waiting for Server to shutdown", this::isRunning);
+        Terminal.wait("Waiting for Server to shutdown", this::isRunning);
     }
 
     @Override

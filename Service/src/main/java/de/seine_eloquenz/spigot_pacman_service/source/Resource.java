@@ -1,18 +1,16 @@
 package de.seine_eloquenz.spigot_pacman_service.source;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import de.seine_eloquenz.spigot_pacman_service.Downloader;
 import de.seine_eloquenz.spigot_pacman_service.util.JsonUtils;
 
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
-public class Resource {
+import static de.seine_eloquenz.spigot_pacman_service.source.spigot.SpigotSource.RESOURCE_API_ENDPOINT;
 
-    private static final String RESOURCE_API_ENDPOINT = "https://api.spiget.org/v2/resources/";
+public class Resource {
 
     private final int id;
     private String name;
@@ -21,7 +19,6 @@ public class Resource {
     private int likes;
     private String type;
     private Size size;
-    private String url;
     private List<String> testedVersions;
     private int releaseDate;
     private int updateDate;
@@ -36,7 +33,6 @@ public class Resource {
         this.likes = result.get("likes").getAsInt();
         this.type = fileInfo.get("type").getAsString();
         this.size = new Size(fileInfo.get("size").getAsInt(), fileInfo.get("sizeUnit").getAsString());
-        this.url = fileInfo.get("url").getAsString();
         this.testedVersions = JsonUtils.stream(result.get("testedVersions").getAsJsonArray()).map(JsonElement::getAsString).collect(Collectors.toList());
         this.releaseDate = result.get("releaseDate").getAsInt();
         this.updateDate = result.get("updateDate").getAsInt();
@@ -47,7 +43,7 @@ public class Resource {
 
     @Override
     public String toString() {
-        return id + " " + name + " " + tag + " " + authorId + " " + likes + " " + type + " " + size + " " + url + " " + testedVersions;
+        return id + " " + name + " " + tag + " " + authorId + " " + likes + " " + type + " " + size + " " + testedVersions;
     }
 
     public int getID() {
@@ -72,10 +68,6 @@ public class Resource {
 
     public Size getSize() {
         return size;
-    }
-
-    public String getUrl() {
-        return url;
     }
 
     public List<String> getTestedVersions() {

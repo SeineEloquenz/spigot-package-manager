@@ -3,10 +3,12 @@ package de.seine_eloquenz.spigot_pacman_service.source.spigot;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import de.seine_eloquenz.spigot_pacman_service.Downloader;
+import de.seine_eloquenz.spigot_pacman_service.SpigotPacman;
 import de.seine_eloquenz.spigot_pacman_service.source.PluginNotFoundException;
 import de.seine_eloquenz.spigot_pacman_service.source.Resource;
 import de.seine_eloquenz.spigot_pacman_service.source.Source;
 import de.seine_eloquenz.spigot_pacman_service.util.JsonUtils;
+import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,26 +16,21 @@ import org.jsoup.safety.Whitelist;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public class SpigotSource implements Source {
 
-	public static final String URL_PLUGINS_SERVER = "https://www.spigotmc.org";
-	public static final String URL_PLUGINS_BASE = "https://www.spigotmc.org/resources/";
-	public static final String URL_PLUGINS_SEARCH = "https://www.spigotmc.org/search/186428656/?t=resource_update&o=relevance&c[rescat]=4+14+15+16+17+18+22+23+24+25+26&q=";
-	public static final String URL_PLUGINS_SEARCH_NAME = "https://www.spigotmc.org/search/1/?t=resource_update&o=relevance&c[title_only]=1&c[rescat]=2+4+5+6+7+8+14+15+16+17+18+22+23+24+25+26&q=";
+	public static final String RESOURCE_API_ENDPOINT = "https://api.spiget.org/v2/resources/";
 
 	@Override
-	public File downloadPlugin(String name) throws IOException, PluginNotFoundException {
-		String url = null; //TODO
-		Document doc = Jsoup.connect(url).userAgent(USER_AGENT).get();
-		String download = doc.select(".downloadButton .inner").get(0).absUrl("href");
-		System.out.print("\r[Connecting...       ] 0%");
-		File dest = File.createTempFile("bpm-" + name, null);
-		System.out.println("[Spigot] " + download + " -> " + dest);
-		Downloader.download(download, dest, USER_AGENT);
+	public File downloadPlugin(Resource resource) throws IOException, PluginNotFoundException {
+		String url = RESOURCE_API_ENDPOINT + resource.getID() + "/download";
+		System.out.println("Downloading Plugin.");
+		File dest = new File(SpigotPacman.UPDATE_FOLDER_PATH + "spm-" + resource.getID() + resource.getType());
+		FileUtils.copyURLToFile(new URL(url), dest);
+		System.out.println("Completed! " + resource.getName() + " -> " + dest);
 		return dest;
 	}
 

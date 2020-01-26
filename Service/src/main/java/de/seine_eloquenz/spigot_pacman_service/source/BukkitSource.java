@@ -18,10 +18,10 @@ public class BukkitSource implements Source {
 	public static final String URL_PLUGINS_BASE = "http://dev.bukkit.org/bukkit-plugins/";
 	public static final String URL_PLUGINS_SEARCH = "http://dev.bukkit.org/search/?scope=projects&search=";
 
-	public File downloadPlugin(String name) throws IOException {
+	public File downloadPlugin(Resource resource) throws IOException {
 		System.out.print("\r[Connecting...       ] 0%");
-		File dest = File.createTempFile("bpm-" + name, null);
-		String download = findDownloadLink(URL_PLUGINS_BASE + name);
+		File dest = File.createTempFile("bpm-" + resource.getID(), null);
+		String download = findDownloadLink(URL_PLUGINS_BASE + resource.getID());
 		System.out.println("[Bukkit] " + download + " -> " + dest);
 		Downloader.download(download, dest);
 		return dest;
