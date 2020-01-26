@@ -1,12 +1,19 @@
 package de.seine_eloquenz.spigot_pacman_service.server;
 
+import de.seine_eloquenz.spigot_pacman_libs.Constants;
+import de.seine_eloquenz.spigot_pacman_service.SpigotPacman;
 import de.seine_eloquenz.spigot_pacman_service.util.Terminal;
 import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.io.output.CloseShieldOutputStream;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -31,7 +38,15 @@ public class ServerImpl implements Server {
 
     @Override
     public boolean isRunning() {
-        return server != null && server.isAlive();
+        if (server == null) {
+            return false;
+        }
+        try {
+            server.exitValue();
+        } catch (IllegalThreadStateException e) {
+            return !failsafeFound();
+        }
+        return true;
     }
 
     @Override
@@ -74,5 +89,16 @@ public class ServerImpl implements Server {
     @Override
     public InputStream consoleStream() {
         return new CloseShieldInputStream(server.getInputStream());
+    }
+
+    private boolean failsafeFound() {
+        File logFile = new File(SpigotPacman.SERVER_LOG_PATH + "latest.log");
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(logFile)));
+            return reader.lines().anyMatch(s -> s.contains(Constants.SHUTDOWN_MARK));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

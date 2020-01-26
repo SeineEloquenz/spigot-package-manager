@@ -31,6 +31,7 @@ public class SpigotPacman {
     public static final String HOME_DIR = "." + File.separator + "spm";
     public static final String PLUGIN_FOLDER_PATH = "." + File.separator + "plugins" + File.separator;
     public static final String UPDATE_FOLDER_PATH = PLUGIN_FOLDER_PATH + "update" + File.separator;
+    public static final String SERVER_LOG_PATH = "." + File.separator + "logs" + File.separator;
 
     private Map<String, Command> commands;
     private final JChannel channel;

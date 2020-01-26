@@ -26,6 +26,7 @@ public class SpigotPacman extends LbcfsPlugin {
 
     @Override
     public void tearDown() {
+        System.out.println(Constants.SHUTDOWN_MARK);
         this.channel.disconnect();
     }
 }
