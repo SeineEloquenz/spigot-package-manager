@@ -25,6 +25,9 @@ public class Resource {
 
     public Resource(final int id) {
         this.id = id;
+    }
+
+    public void update() {
         JsonObject result = Downloader.getJSONObject(RESOURCE_API_ENDPOINT + id);
         JsonObject fileInfo = result.get("file").getAsJsonObject();
         this.name = result.get("name").getAsString();
@@ -38,12 +41,9 @@ public class Resource {
         this.updateDate = result.get("updateDate").getAsInt();
     }
 
-    public void update() {
-    }
-
     @Override
     public String toString() {
-        return id + " " + name + " " + tag + " " + authorId + " " + likes + " " + type + " " + size + " " + testedVersions;
+        return getID() + " " + getName() + " ";
     }
 
     public int getID() {
@@ -51,10 +51,16 @@ public class Resource {
     }
 
     public String getName() {
+        if (name == null) {
+            this.update();
+        }
         return name;
     }
 
     public String getTag() {
+        if (tag == null) {
+            this.update();
+        }
         return tag;
     }
 
@@ -63,26 +69,44 @@ public class Resource {
     }
 
     public String getType() {
+        if (type == null) {
+            this.update();
+        }
         return type;
     }
 
     public Size getSize() {
+        if (size == null) {
+            this.update();
+        }
         return size;
     }
 
     public List<String> getTestedVersions() {
+        if (testedVersions == null) {
+            this.update();
+        }
         return testedVersions;
     }
 
     public int getReleaseDate() {
+        if (releaseDate == 0) {
+            this.update();
+        }
         return releaseDate;
     }
 
     public int getUpdateDate() {
+        if (updateDate == 0) {
+            this.update();
+        }
         return updateDate;
     }
 
     public int getAuthorId() {
+        if (authorId == 0) {
+            this.update();
+        }
         return authorId;
     }
 }
