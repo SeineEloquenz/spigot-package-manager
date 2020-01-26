@@ -36,9 +36,10 @@ public class SpigotSource implements Source {
 
 	@Override
 	public List<Resource> searchForPackage(String search) throws IOException {
-		JsonArray json = Downloader.getJSONArray("https://api.spiget.org/v2/search/resources/" + search + "?size=10&fields=name");
+		JsonArray json = Downloader.getJSONArray("https://api.spiget.org/v2/search/resources/" + search + "?size=10&fields=name%2Cfile");
 		return JsonUtils.stream(json)
 				.map(JsonElement::getAsJsonObject)
+				.filter(o -> o.getAsJsonObject("file").get("type").getAsString().equalsIgnoreCase(".jar"))
 				.map(o -> new Resource(Integer.parseInt(o.get("id").getAsString())))
 				.collect(Collectors.toList());
 	}
