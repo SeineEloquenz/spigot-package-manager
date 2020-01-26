@@ -8,6 +8,10 @@ import java.io.InputStreamReader;
 
 public class Terminal {
 
+    private Terminal() {
+
+    }
+
     public static boolean askYesNo(String question) {
         System.out.println(question + " [y,n]");
         try (BufferedReader in = new BufferedReader(new InputStreamReader(new CloseShieldInputStream(System.in)))) {
