@@ -13,11 +13,17 @@ import org.reflections.Reflections;
 import de.seine_eloquenz.spigot_pacman_service.cmd.Command;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SpigotPacman {
@@ -61,6 +67,20 @@ public class SpigotPacman {
 
     public boolean isInstalled(Resource resource) {
         return (new File(PLUGIN_FOLDER_PATH + "spm-" + resource.getID() + resource.getType())).exists();
+    }
+
+    public Collection<Resource> getInstalledResources() {
+        try {
+            return Files.walk((new File(PLUGIN_FOLDER_PATH)).toPath()).filter(p -> p.getFileName().startsWith("spm-"))
+                    .map(p -> {
+                        String fileName = p.toFile().getName();
+                        int endIndex = fileName.indexOf(".");
+                        return fileName.substring(3, endIndex);
+                    }).mapToInt(Integer::parseInt).mapToObj(Resource::new).collect(Collectors.toList());
+        } catch (IOException e) {
+            System.out.println("IO Error occured");
+            return new LinkedList<>();
+        }
     }
 
     public File buildServer(String version) {
