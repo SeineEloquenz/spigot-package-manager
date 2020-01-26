@@ -3,10 +3,13 @@ package de.seine_eloquenz.spigot_pacman_service.source;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import de.seine_eloquenz.spigot_pacman_service.Downloader;
+import de.seine_eloquenz.spigot_pacman_service.SpigotPacman;
 import de.seine_eloquenz.spigot_pacman_service.util.JsonUtils;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.util.Collection;
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +49,17 @@ public class Resource {
 
     public boolean isInstalled() {
         return (new File(PLUGIN_FOLDER_PATH + "spm-" + this.getID() + this.getType())).exists();
+    }
+
+    public File download() throws IOException {
+        File dest = new File(SpigotPacman.UPDATE_FOLDER_PATH + "spm-" + this.getID() + this.getType());
+        return download(dest);
+    }
+
+    private File download(File dest) throws IOException {
+        String url = RESOURCE_API_ENDPOINT + this.getID() + "/download";
+        FileUtils.copyURLToFile(new URL(url), dest);
+        return dest;
     }
 
     @Override

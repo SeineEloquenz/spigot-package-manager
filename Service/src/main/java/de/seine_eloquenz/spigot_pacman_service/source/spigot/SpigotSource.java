@@ -3,12 +3,10 @@ package de.seine_eloquenz.spigot_pacman_service.source.spigot;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import de.seine_eloquenz.spigot_pacman_service.Downloader;
-import de.seine_eloquenz.spigot_pacman_service.SpigotPacman;
 import de.seine_eloquenz.spigot_pacman_service.source.PluginNotFoundException;
 import de.seine_eloquenz.spigot_pacman_service.source.Resource;
 import de.seine_eloquenz.spigot_pacman_service.source.Source;
 import de.seine_eloquenz.spigot_pacman_service.util.JsonUtils;
-import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,7 +14,6 @@ import org.jsoup.safety.Whitelist;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,10 +23,8 @@ public class SpigotSource implements Source {
 
 	@Override
 	public File downloadPlugin(Resource resource) throws IOException, PluginNotFoundException {
-		String url = RESOURCE_API_ENDPOINT + resource.getID() + "/download";
 		System.out.println("Downloading Plugin.");
-		File dest = new File(SpigotPacman.UPDATE_FOLDER_PATH + "spm-" + resource.getID() + resource.getType());
-		FileUtils.copyURLToFile(new URL(url), dest);
+		File dest = resource.download();
 		System.out.println("Completed! " + resource.getName() + " -> " + dest);
 		return dest;
 	}
