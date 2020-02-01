@@ -3,7 +3,7 @@ package de.seine_eloquenz.spigot_pacman_service.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class URLUtils {
+public final class URLUtils {
 
     private URLUtils() {
 

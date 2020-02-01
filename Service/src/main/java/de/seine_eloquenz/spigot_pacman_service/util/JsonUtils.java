@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public class JsonUtils {
+public final class JsonUtils {
 
     private JsonUtils() {
 
