@@ -10,9 +10,10 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>Plugin</module>
-        <module>Service</module>
-        <module>Libs</module>
+        <module>spm-libs</module>
+        <module>spm-plugin</module>
+        <module>spm-service</module>
+        <module>spm-gui</module>
     </modules>
 
     <dependencies>

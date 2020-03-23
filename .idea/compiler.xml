@@ -7,11 +7,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Libs" />
-        <module name="Service" />
-        <module name="Plugin" />
+        <module name="spm-gui" />
+        <module name="spm-plugin" />
+        <module name="spm-plug" />
+        <module name="spm-service" />
+        <module name="spm-libs" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Plugin" target="9" />
+      <module name="Service" target="9" />
+      <module name="spm-plug" target="9" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
