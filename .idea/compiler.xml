@@ -8,10 +8,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="spm-gui" />
+        <module name="spm-libs" />
+        <module name="spm-service" />
         <module name="spm-plugin" />
         <module name="spm-plug" />
-        <module name="spm-service" />
-        <module name="spm-libs" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
