@@ -94,7 +94,7 @@
 
         <dependency>
             <groupId>de.seine_eloquenz</groupId>
-            <artifactId>Libs</artifactId>
+            <artifactId>spm-libs</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
