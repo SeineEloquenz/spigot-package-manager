@@ -87,7 +87,7 @@ public class SpigotPacman {
             return null;
         } else {
             try {
-                return manager.buildServer(type, version);
+                return manager.buildServer(version);
             } catch (Exception e) {
                 System.err.println("Could not build server for " + type + "-" + version);
                 return null;

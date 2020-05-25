@@ -14,6 +14,8 @@ public class BuildToolsManager implements ServerSupplier {
 	public static final String BUILD_TOOLS_DIR = SpigotPacman.HOME_DIR + File.separator + "BuildTools";
 	public static final String BUILD_TARGET_DIR = SpigotPacman.HOME_DIR + File.separator + "build-target";
 
+	private static final ServerType SERVER_TYPE = ServerType.spigot;
+
 	private void downloadBuildTools() throws IOException {
 		String url = "https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar";
 		//noinspection ResultOfMethodCallIgnored
@@ -105,34 +107,33 @@ public class BuildToolsManager implements ServerSupplier {
 		System.out.println("BuildTools exited with: " + exitVal);
 	}
 	
-	private File findJar(ServerType serverType) {
+	private File findJar() {
 		File btDir = new File(BUILD_TOOLS_DIR);
 		File[] jars = btDir.listFiles((dir, name) -> name.endsWith(".jar"));
 		if (jars != null) {
 			for(File jar: jars){
-				if (jar.getName().startsWith(serverType.name())){
+				if (jar.getName().startsWith(SERVER_TYPE.name())) {
 					return jar;
 				}
 			}
 		}
-		throw new IllegalArgumentException("Can't find build for: " + serverType);
+		throw new IllegalArgumentException("Can't find build for: " + SERVER_TYPE.name());
 	}
 
 	/**
 	 * Builds a server
-	 * @param serverType serverType to build
 	 * @param version version to build
 	 * @throws IOException io errors
 	 * @throws InterruptedException interruption
 	 */
-	public File buildServer(ServerType serverType, String version) throws IOException, InterruptedException {
+	public File buildServer(String version) throws IOException, InterruptedException {
 		checkConditions();
 		downloadBuildTools();
 		clean(new File(BUILD_TOOLS_DIR));
 		clean(new File(BUILD_TARGET_DIR));
 		runBuildTools(version);
 		
-		File jar = findJar(serverType);
+		File jar = findJar();
 		File dest = new File(BUILD_TARGET_DIR + File.separator + jar.getName());
 		//noinspection ResultOfMethodCallIgnored
 		jar.renameTo(dest);
