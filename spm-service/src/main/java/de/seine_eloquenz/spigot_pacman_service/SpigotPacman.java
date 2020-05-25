@@ -5,10 +5,12 @@ import de.seine_eloquenz.spigot_pacman_service.config.Configuration;
 import de.seine_eloquenz.spigot_pacman_libs.Constants;
 import de.seine_eloquenz.spigot_pacman_service.server.Server;
 import de.seine_eloquenz.spigot_pacman_service.server.ServerImpl;
-import de.seine_eloquenz.spigot_pacman_service.server_supplier.BuildToolsManager;
+import de.seine_eloquenz.spigot_pacman_service.server_supplier.BuildToolsSupplier;
+import de.seine_eloquenz.spigot_pacman_service.server_supplier.ServerSupplier;
 import de.seine_eloquenz.spigot_pacman_service.source.Resource;
 import de.seine_eloquenz.spigot_pacman_service.source.Source;
 import de.seine_eloquenz.spigot_pacman_service.source.spigot.SpigotSource;
+import de.seine_eloquenz.spigot_pacman_service.util.Terminal;
 import org.jgroups.JChannel;
 import org.reflections.Reflections;
 import de.seine_eloquenz.spigot_pacman_service.cmd.Command;
@@ -35,18 +37,20 @@ public class SpigotPacman {
 
     private Map<String, Command> commands;
     private final JChannel channel;
-    private final BuildToolsManager manager;
+    private final BuildToolsSupplier manager;
     private Configuration configuration;
     private final Server server;
-    private Source source;
+    private final Source source;
+    private final ServerSupplier serverSupplier;
 
     public SpigotPacman() throws Exception {
         commands = new HashMap<>();
         channel = new JChannel();
-        this.manager = new BuildToolsManager();
+        this.manager = new BuildToolsSupplier();
         this.configuration = new ApacheCommonsConfiguration();
         this.server = new ServerImpl(configuration.serverArguments());
         this.source = new SpigotSource();
+        this.serverSupplier = ServerSupplier.build(configuration.serverType());
         //noinspection ResultOfMethodCallIgnored
         (new File(UPDATE_FOLDER_PATH)).mkdirs();
         this.findAndRegisterCommands();
@@ -81,18 +85,15 @@ public class SpigotPacman {
     }
 
     public File buildServer(String version) {
-        ServerType type = configuration.serverType();
-        if (ServerType.paper.equals(type)) {
-            // TODO paper download
-            return null;
-        } else {
-            try {
-                return manager.buildServer(version);
-            } catch (Exception e) {
-                System.err.println("Could not build server for " + type + "-" + version);
-                return null;
+        try {
+            return serverSupplier.buildServer(version);
+        } catch (IOException | InterruptedException e) {
+            System.out.println("An Error occured getting the upgraded version");
+            if (Terminal.askYesNo("Print stack-trace?")) {
+                e.printStackTrace();
             }
         }
+        return null;
     }
 
     public void executeCommand(String name, String... args) {

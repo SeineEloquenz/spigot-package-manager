@@ -8,7 +8,7 @@
       </pattern>
     </extension>
     <option name="PACKAGE_NAME" value="de.seine_eloquenz.spigot_pacman_service.server_supplier" />
-    <option name="MAIN_CLASS_NAME" value="de.seine_eloquenz.spigot_pacman_service.server_supplier.BuildToolsManagerTest" />
+    <option name="MAIN_CLASS_NAME" value="de.seine_eloquenz.spigot_pacman_service.server_supplier.BuildToolsSupplierTest" />
     <option name="METHOD_NAME" value="runBuildTools" />
     <option name="TEST_OBJECT" value="method" />
     <option name="PARAMETERS" value="" />

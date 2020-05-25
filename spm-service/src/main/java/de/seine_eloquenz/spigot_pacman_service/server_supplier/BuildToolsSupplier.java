@@ -9,10 +9,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class BuildToolsManager implements ServerSupplier {
+public class BuildToolsSupplier implements ServerSupplier {
 
 	public static final String BUILD_TOOLS_DIR = SpigotPacman.HOME_DIR + File.separator + "BuildTools";
-	public static final String BUILD_TARGET_DIR = SpigotPacman.HOME_DIR + File.separator + "build-target";
 
 	private static final ServerType SERVER_TYPE = ServerType.spigot;
 
@@ -21,7 +20,7 @@ public class BuildToolsManager implements ServerSupplier {
 		//noinspection ResultOfMethodCallIgnored
 		(new File(BUILD_TOOLS_DIR)).mkdirs();
 		//noinspection ResultOfMethodCallIgnored
-		(new File(BUILD_TARGET_DIR)).mkdirs();
+		(new File(ServerSupplier.BUILD_TARGET_DIR)).mkdirs();
 		File dest = new File(BUILD_TOOLS_DIR, "BuildTools.jar");
 
 		System.out.print("Downloading latest BuildTools...\n[Connecting...       ] 0%");
@@ -120,21 +119,16 @@ public class BuildToolsManager implements ServerSupplier {
 		throw new IllegalArgumentException("Can't find build for: " + SERVER_TYPE.name());
 	}
 
-	/**
-	 * Builds a server
-	 * @param version version to build
-	 * @throws IOException io errors
-	 * @throws InterruptedException interruption
-	 */
+	@Override
 	public File buildServer(String version) throws IOException, InterruptedException {
 		checkConditions();
 		downloadBuildTools();
 		clean(new File(BUILD_TOOLS_DIR));
-		clean(new File(BUILD_TARGET_DIR));
+		clean(new File(ServerSupplier.BUILD_TARGET_DIR));
 		runBuildTools(version);
 		
 		File jar = findJar();
-		File dest = new File(BUILD_TARGET_DIR + File.separator + jar.getName());
+		File dest = new File(ServerSupplier.BUILD_TARGET_DIR + File.separator + jar.getName());
 		//noinspection ResultOfMethodCallIgnored
 		jar.renameTo(dest);
 		return dest;
