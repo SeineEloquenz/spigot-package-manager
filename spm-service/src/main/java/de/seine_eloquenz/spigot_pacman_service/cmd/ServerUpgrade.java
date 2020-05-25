@@ -27,6 +27,10 @@ public class ServerUpgrade extends Command {
             if (args.length == 2) {
                 if (args[0].equals("-v")) {
                     File server = pacman().buildServer(args[1]);
+                    if (server == null) {
+                        System.out.println("Server jar is a Nullpointer, that shouldn't happen...");
+                        return;
+                    }
                     try {
                         pacman().getServer().stop();
                         System.out.println("Sending stop command to server...");
