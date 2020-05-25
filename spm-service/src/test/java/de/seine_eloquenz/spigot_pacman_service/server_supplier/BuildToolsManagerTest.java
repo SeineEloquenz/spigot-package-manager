@@ -1,5 +1,7 @@
-package de.seine_eloquenz.spigot_pacman_service;
+package de.seine_eloquenz.spigot_pacman_service.server_supplier;
 
+import de.seine_eloquenz.spigot_pacman_service.ServerType;
+import de.seine_eloquenz.spigot_pacman_service.server_supplier.BuildToolsManager;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

@@ -1,14 +1,14 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Test BuildTools" type="JUnit" factoryName="JUnit">
-    <module name="Service" />
+    <module name="spm-service" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="de.seine_eloquenz.spigot_pacman_service.server.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
-    <option name="PACKAGE_NAME" value="de.seine_eloquenz.spigot_pacman_service" />
-    <option name="MAIN_CLASS_NAME" value="de.seine_eloquenz.spigot_pacman_service.BuildToolsManagerTest" />
+    <option name="PACKAGE_NAME" value="de.seine_eloquenz.spigot_pacman_service.server_supplier" />
+    <option name="MAIN_CLASS_NAME" value="de.seine_eloquenz.spigot_pacman_service.server_supplier.BuildToolsManagerTest" />
     <option name="METHOD_NAME" value="runBuildTools" />
     <option name="TEST_OBJECT" value="method" />
     <option name="PARAMETERS" value="" />

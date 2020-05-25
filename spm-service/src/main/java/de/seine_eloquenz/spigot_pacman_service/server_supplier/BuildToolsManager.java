@@ -1,11 +1,15 @@
-package de.seine_eloquenz.spigot_pacman_service;
+package de.seine_eloquenz.spigot_pacman_service.server_supplier;
+
+import de.seine_eloquenz.spigot_pacman_service.Downloader;
+import de.seine_eloquenz.spigot_pacman_service.ServerType;
+import de.seine_eloquenz.spigot_pacman_service.SpigotPacman;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class BuildToolsManager {
+public class BuildToolsManager implements ServerSupplier {
 
 	public static final String BUILD_TOOLS_DIR = SpigotPacman.HOME_DIR + File.separator + "BuildTools";
 	public static final String BUILD_TARGET_DIR = SpigotPacman.HOME_DIR + File.separator + "build-target";
